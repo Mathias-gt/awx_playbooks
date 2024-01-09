@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  name: Write to a file
+  tasks:
+  - name: Creating a file with content
+    copy:
+      dest: "/tmp/config.txt"
+      content: |
+         vlan 80 admin-state enable 
+
+- name: Push configuration files
+  gather_facts: no
+  connection: local
+  hosts: all
+  tags: [ deploy ]
+  tasks:
+    - name: Load configuration to nodes
+      napalm_install_config:
+        hostname: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        dev_os: "{{dev_os}}"
+        password: "{{ ansible_ssh_pass }}"
+        config_file: /tmp/config.txt
+        commit_changes: "{{commit}}"
+        replace_config: "{{replace}}"
+        diff_file: diff.txt
