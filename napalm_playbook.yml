@@ -15,7 +15,7 @@
   tags: [ deploy ]
   tasks:
     - name: Load configuration to nodes
-      napalm_install_config:
+      napalm.napalm.napalm_install_config:
         hostname: "{{ ansible_host }}"
         username: "{{ ansible_user }}"
         dev_os: "{{dev_os}}"
